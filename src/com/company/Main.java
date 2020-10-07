@@ -9,10 +9,13 @@ public class Main {
 	    String t = "(){}[]";
 	    String t1 = "(({[]}))";
 	    String t2 = "{(})";
-        boolean test = validateCharacters(t1);
+        //boolean test = validateCharacters(t1);
         String S = "ab#c";
         String T = "ad#c";
-        boolean test2 = backspaceCompare(S,T);
+        //boolean test2 = backspaceCompare(S,T);
+        String s = "foobar";
+        String res = removeAdjDupes(s);
+        System.out.println(res);
     }
 
     public static boolean validateCharacters(String s) {
@@ -64,5 +67,43 @@ public class Main {
         }
 
         return sStack.isEmpty() && tStack.isEmpty();
+    }
+
+    //Runtime: O(N) where N is the number of characters in s.
+    //Space complexity: O(N) where N is the number of characters in s.
+    public static String removeAdjDupes(String s) {
+        //Shane Method first try
+//        Stack<Character> stack = new Stack<Character>();
+//        for(char c : s.toCharArray()) {
+//            if(stack.isEmpty()) {
+//                stack.push((c));
+//            }else if(stack.peek() == c) {
+//                stack.pop();
+//            } else {
+//                stack.push(c);
+//            }
+//        }
+//        StringBuilder str = new StringBuilder();
+//        for(char c : stack){
+//            str.append(c);
+//        }
+//        return str.toString();
+
+        // Daily Byte answer that is twice as fast as mine
+        StringBuilder result = new StringBuilder();
+        Stack<Character> stack = new Stack<>();
+        for (char c: s.toCharArray()) {
+            if (!stack.isEmpty() && c == stack.peek()) {
+                stack.pop();
+            } else {
+                stack.push(c);
+            }
+        }
+
+        while (!stack.isEmpty()) {
+            result.append(stack.pop());
+        }
+
+        return result.reverse().toString();
     }
 }
